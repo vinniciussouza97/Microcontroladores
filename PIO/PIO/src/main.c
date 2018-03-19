@@ -9,11 +9,13 @@ int main (void)
 	
 	PIOA->PIO_PER |= LED_VERDE|LED_AZUL;
 	PIOA->PIO_OER |= LED_VERDE|LED_AZUL;
-	PIOA->PIO_SODR |= LED_VERDE;
-	PIOA->PIO_CODR |= LED_AZUL;
+	PIOA->PIO_CODR |= LED_VERDE|LED_AZUL;
 
 	while(1)
-	{
-		
+	{		
+		delay_ms(250);
+		PIOA->PIO_SODR |= LED_VERDE|LED_AZUL;
+		delay_ms(250);
+		PIOA->PIO_CODR |= LED_VERDE|LED_AZUL;
 	}
 }
