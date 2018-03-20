@@ -3436,7 +3436,7 @@ OUTPUT(PIO.elf elf32-littlearm)
  .debug_line    0x00004b5a      0x8a6 src/ASF/sam/utils/cmsis/sam4s/source/templates/system_sam4s.o
  .debug_line    0x00005400      0xcfd src/main.o
 
-.debug_str      0x00000000    0x5133b
+.debug_str      0x00000000    0x5133c
  .debug_str     0x00000000    0x4ed36 src/ASF/common/services/clock/sam4s/sysclk.o
                               0x4f0be (size before relaxing)
  .debug_str     0x0004ed36      0xc5e src/ASF/sam/boards/sam4s_ek2/init.o
@@ -3451,8 +3451,8 @@ OUTPUT(PIO.elf elf32-littlearm)
                               0x3b6d3 (size before relaxing)
  .debug_str     0x00050e5e       0xf1 src/ASF/sam/utils/cmsis/sam4s/source/templates/system_sam4s.o
                               0x3b49c (size before relaxing)
- .debug_str     0x00050f4f      0x3ec src/main.o
-                              0x4fcb5 (size before relaxing)
+ .debug_str     0x00050f4f      0x3ed src/main.o
+                              0x4fcb6 (size before relaxing)
 
 .debug_frame    0x00000000      0xb14
  .debug_frame   0x00000000       0x58 src/ASF/common/services/clock/sam4s/sysclk.o
