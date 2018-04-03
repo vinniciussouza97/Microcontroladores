@@ -53,7 +53,7 @@ int main (void)
 				pio_clear(PIOA, PINO_LED_VERDE);
 				puts("LED verde agora esta ACESO\r");
 				break;
-			case 's':aaaaaaa
+			case 's':
 				pio_set(PIOA, PINO_LED_AZUL);
 				puts("LED azul agora esta APAGADO\r");
 				break;
