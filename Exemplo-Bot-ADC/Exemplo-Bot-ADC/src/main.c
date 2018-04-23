@@ -97,8 +97,6 @@ static void tc_config(uint32_t freq_desejada)
 	tc_enable_interrupt(TC,	CHANNEL,
 	TC_IER_CPCS);				// Enable interrupt.
 	tc_start(TC,CHANNEL);			// Start the TC.
-
-
 }
 
 void configure_lcd()
