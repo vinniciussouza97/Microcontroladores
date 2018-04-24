@@ -4899,8 +4899,8 @@ void ADC_Handler(void)
   401618:	00400941 	.word	0x00400941
 
 0040161c <configure_lcd>:
-
-
+	TC_IER_CPCS);				// Enable interrupt.
+	tc_start(TC,CHANNEL);			// Start the TC.
 }
 
 void configure_lcd()
