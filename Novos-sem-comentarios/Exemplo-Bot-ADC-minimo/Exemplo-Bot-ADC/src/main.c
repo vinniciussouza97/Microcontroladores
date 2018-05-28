@@ -10,6 +10,7 @@
 #define STARTUP_TIME ADC_STARTUP_TIME_4
 #define MAX_DIGITAL     (4095)
 #define ADC_CHANNEL 5
+#define ADC_UMIDADE	0
 
 #define TC			TC0
 #define CHANNEL		0
@@ -34,21 +35,40 @@ static void push_button_handle(uint32_t id, uint32_t mask)
 void ADC_Handler(void)
 {
 	uint16_t result;
+	uint32_t status;
 
-	if ((adc_get_status(ADC) & ADC_ISR_DRDY) == ADC_ISR_DRDY)
+	status = adc_get_status(ADC);
+
+	if (status & ADC_ISR_EOC5)
 	{
-		result = adc_get_latest_value(ADC);
-		
-		char buffer[10];
-		sprintf (buffer, "%d", result);
-		
+		result = adc_get_channel_value(ADC,ADC_CHANNEL);
+
+		char buffer[20];
+		sprintf (buffer, "Pot: %d", result);
+
 		ili93xx_set_foreground_color(COLOR_WHITE);
-		ili93xx_draw_filled_rectangle(135, 175, 240, 200);
-		
+		ili93xx_draw_filled_rectangle(95, 175, 240, 200);
+
 		ili93xx_set_foreground_color(COLOR_BLACK);
-		ili93xx_draw_string(140, 180, (uint8_t*) buffer);
+		ili93xx_draw_string(100, 180, (uint8_t*) buffer);
+
+	}
+	else if (status & ADC_ISR_EOC0)
+	{
+		result = adc_get_channel_value(ADC,ADC_UMIDADE);
+
+		char buffer[20];
+
+		sprintf (buffer, "Umi: %d", result);
+
+		ili93xx_set_foreground_color(COLOR_WHITE);
+		ili93xx_draw_filled_rectangle(95, 135, 240, 170);
+
+		ili93xx_set_foreground_color(COLOR_BLACK);
+		ili93xx_draw_string(100, 140, (uint8_t*) buffer);
 	}
 }
+
 
 void TC_Handler(void)
 {
@@ -121,15 +141,17 @@ void configure_botao(void)
 void configure_adc(void)
 {
 	/* Enable peripheral clock. */
-	pmc_enable_periph_clk(ID_ADC);
-	
+	pmc_enable_periph_clk(ID_ADC);	
+
 	adc_init(ADC, sysclk_get_cpu_hz(), 6400000, STARTUP_TIME);
 	adc_configure_timing(ADC, TRACKING_TIME	, ADC_SETTLING_TIME_3, TRANSFER_PERIOD);
 	adc_configure_trigger(ADC, ADC_TRIG_SW, 0);
+	adc_enable_channel(ADC, ADC_UMIDADE);
 	adc_enable_channel(ADC, ADC_CHANNEL);
 	NVIC_SetPriority(ADC_IRQn, 5);
 	NVIC_EnableIRQ(ADC_IRQn);
-	adc_enable_interrupt(ADC, ADC_IER_DRDY);
+	adc_enable_interrupt(ADC, ADC_ISR_EOC5);
+	adc_enable_interrupt(ADC, ADC_ISR_EOC0);
 }
 
 static void tc_config(uint32_t freq_desejada)
